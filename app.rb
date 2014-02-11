@@ -1,4 +1,8 @@
 require 'bundler'
+require 'sinatra'
+require 'sinatra/activerecord'
+
+ENV['RACK_ENV'] ||= 'development'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
 
 before do
