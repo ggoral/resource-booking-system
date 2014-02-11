@@ -34,6 +34,12 @@ $ bundle exec rackup
 $ bundle exec rake
 ```
 
+## Run console test sample
+
+```bash
+$ curl -G --data 'param1=value1&param2=value2' -vvv http://localhost:9292/
+```
+
 ## Contributing
 
 1. Fork it

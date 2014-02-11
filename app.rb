@@ -7,5 +7,6 @@ end
 
 get '/' do
   @url = request.url
+  puts params
   jbuilder :url
 end

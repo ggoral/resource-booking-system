@@ -17,4 +17,19 @@ class AppTest < Minitest::Test
     assert_content_type_is_json last_response
     assert_equal 200, last_response.status
   end
+
+  def test_json_resources
+    server_response = get '/'
+    assert_content_type_is_json last_response
+    assert_equal 200, last_response.status
+
+    json = JSON.parse server_response.body
+
+    assert url = json
+    pattern = {        
+        url: "http://example.org/"
+    }
+    p json
+    matcher = assert_json_match pattern, server_response.body
+  end
 end
