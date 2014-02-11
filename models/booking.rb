@@ -1,6 +1,5 @@
 class Booking < ActiveRecord::Base
   belongs_to :resource
-#  belongs_to :user
 
   before_validation :set_pending_status, on: :create
 
