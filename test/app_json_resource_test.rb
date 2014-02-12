@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppJsonExpressionsTest < Minitest::Test
+class AppJsonResourceTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
@@ -39,7 +39,6 @@ class AppJsonExpressionsTest < Minitest::Test
 #    matcher = assert_json_match pattern, server_response.body
 #  end
 #
-## Se pasa a json_resource
 #  def test_json_first_resource
 #    server_response = get "/resources/#{Resource.first.id}"
 #    assert_equal 200, last_response.status

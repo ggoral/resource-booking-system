@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppTest < Minitest::Unit::TestCase
+class AppTest < Minitest::Test
   include Rack::Test::Methods
 
   def app
@@ -29,7 +29,7 @@ class AppTest < Minitest::Unit::TestCase
     pattern = {        
         url: "http://example.org/"
     }
-    p json
+    #p json
     matcher = assert_json_match pattern, server_response.body
   end
 end

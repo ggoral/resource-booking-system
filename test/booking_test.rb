@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BookingTest < Minitest::Unit::TestCase
+class BookingTest < Minitest::Test
   include Rack::Test::Methods
   include Sinatra::Helpers
 
@@ -11,6 +11,7 @@ class BookingTest < Minitest::Unit::TestCase
   def setup
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
+
     @resource = Resource.create(name: 'aResource', description: 'aDescription')
   end
 
