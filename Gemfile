@@ -3,9 +3,8 @@ source 'https://rubygems.org'
 gem 'sinatra'
 gem 'sqlite3'
 gem 'activerecord'
-gem 'activesupport', '=3.2.16'
+gem 'activesupport'
 gem 'sinatra-activerecord'
-gem 'rake'
 gem 'tilt-jbuilder', require: 'sinatra/jbuilder'
 
 group :development do
