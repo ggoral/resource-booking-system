@@ -6,6 +6,7 @@ ENV['RACK_ENV'] ||= 'development'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
 
 Dir[File.dirname(__FILE__) + '/models/*.rb'].each { |ruby_file| require_relative ruby_file }
+Dir[File.dirname(__FILE__) + '/helpers/*.rb'].each { |ruby_file| require_relative ruby_file }
 #For testing app
 ActiveRecord::Base.logger = nil
 
@@ -13,15 +14,15 @@ before do
   content_type 'application/json'
 end
 
+#remove this method to before release
 get '/' do
   @url = request.url
-#  puts params
   jbuilder :url
 end
 
 before '/resources/:resource_id*' do
-#  @resource = Resource.find_by(id: params[:resource_id])
-#  halt 404 unless @resource
+  @resource = Resource.find_by(id: params[:resource_id])
+  halt 404 unless @resource
 end
 
 before '/resources/:resource_id/bookings/:booking_id' do
@@ -30,9 +31,8 @@ before '/resources/:resource_id/bookings/:booking_id' do
 end
 
 get '/resources/:resource_id' do
-  puts params
-#  @resource = Resource.find_by(id: params[:resource_id])
-#  jbuilder :resource
+  @resource = Resource.find_by(id: params[:resource_id])
+  jbuilder :resource
 end
 
 get '/resources' do

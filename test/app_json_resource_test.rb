@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppJsonResourceTest < Minitest::Test
+class AppJsonResourceTest < Minitest::Unit::TestCase
   include Rack::Test::Methods
 
   def app
@@ -60,74 +60,5 @@ class AppJsonResourceTest < Minitest::Test
 #    matcher = assert_json_match pattern, server_response.body  
 #  end
 #
-#def test_json_booking
-#    server_response = get "/resources/#{@resource.id}/bookings/#{@booking.id}"
-#    assert_equal 200, last_response.status
-#    json = JSON.parse server_response.body
-#    assert booking = json
-#    
-#    booking = @booking
-#    pattern = {        
-#      from: String,
-#      to: String,
-#      status: booking.status,
-#      links:[
-#        {  
-#          rel: "self",
-#          uri: String 
-#        },
-#        {  
-#          rel: "resource",
-#          uri: String
-#        },
-#        {  
-#          rel: "accept",
-#          uri: String,
-#          method: "PUT"
-#        },
-#        {  
-#          rel: "reject",
-#          uri: String, 
-#          method: "DELETE"
-#        }
-#      ]  
-#    }
-#    matcher = assert_json_match pattern, server_response.body  
-#  end
-#
-#def test_json_bookings
-#    server_response = get "/resources/#{@resource.id}/bookings/#{@booking.id}"
-#    assert_equal 200, last_response.status
-#    json = JSON.parse server_response.body
-#    assert booking = json
-#    
-#    booking = @booking
-#    pattern = {        
-#      from: String,
-#      to: String,
-#      status: booking.status,
-#      links:[
-#        {  
-#          rel: "self",
-#          uri: String 
-#        },
-#        {  
-#          rel: "resource",
-#          uri: String
-#        },
-#        {  
-#          rel: "accept",
-#          uri: String,
-#          method: "PUT"
-#        },
-#        {  
-#          rel: "reject",
-#          uri: String, 
-#          method: "DELETE"
-#        }
-#      ]  
-#    }
-#    matcher = assert_json_match pattern, server_response.body  
-#  end
-#
+
 end

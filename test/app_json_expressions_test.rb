@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AppJsonExpressionsTest < Minitest::Test
+class AppJsonExpressionsTest < Minitest::Unit::TestCase
   include Rack::Test::Methods
 
   def app

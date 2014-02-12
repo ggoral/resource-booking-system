@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ResourceTest < Minitest::Test
+class ResourceTest < Minitest::Unit::TestCase
   include Rack::Test::Methods
   include Sinatra::Helpers
 

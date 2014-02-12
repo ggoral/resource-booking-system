@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BookingTest < Minitest::Test
+class BookingTest < Minitest::Unit::TestCase
   include Rack::Test::Methods
   include Sinatra::Helpers
 
