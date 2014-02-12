@@ -10,6 +10,7 @@ Dir[File.dirname(__FILE__) + '/models/*.rb'].each { |ruby_file| require_relative
 Dir[File.dirname(__FILE__) + '/helpers/*.rb'].each { |ruby_file| require_relative ruby_file }
 #For testing app
 ActiveRecord::Base.logger = nil
+ActiveSupport.escape_html_entities_in_json = false
 
 before do
   content_type 'application/json'
@@ -27,8 +28,8 @@ before '/resources/:resource_id*' do
 end
 
 before '/resources/:resource_id/bookings/:booking_id' do
-#  @booking = @resource.bookings.find_by(id: params[:booking_id])
-#  halt 404 unless @booking
+  @booking = @resource.bookings.find_by(id: params[:booking_id])
+  halt 404 unless @booking
 end
 
 get '/resources/:resource_id' do
@@ -42,8 +43,8 @@ get '/resources' do
 end
 
 get '/resources/:resource_id/bookings' do
-#  @bookings = @resource.bookings
-#  jbuilder :bookings
+  @bookings = @resource.bookings
+  jbuilder :bookings
 end
 
 get '/resources/:resource_id/availability' do
