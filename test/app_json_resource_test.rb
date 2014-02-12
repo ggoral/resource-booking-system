@@ -18,27 +18,27 @@ class AppJsonResourceTest < Minitest::Unit::TestCase
     DatabaseCleaner.clean
   end
 
-#  def test_json_resources
-#    server_response = get '/resources'
-#    assert_equal 200, last_response.status
-#
-#    json = JSON.parse server_response.body
-#
-#    assert resources = json['resources']
-#    pattern = {        
-#        resources: [
-#            name: String,
-#            description: String,
-#            links: Array, 
-#          ] * json['resources'].length,
-#        links: [
-#          rel: String,
-#          uri: String,
-#          ]
-#      }
-#    matcher = assert_json_match pattern, server_response.body
-#  end
-#
+  def test_json_resources
+    server_response = get '/resources'
+    assert_equal 200, last_response.status
+
+    json = JSON.parse server_response.body
+
+    assert resources = json['resources']
+    pattern = {        
+        resources: [
+            name: String,
+            description: String,
+            links: Array, 
+          ] * json['resources'].length,
+        links: [
+          rel: String,
+          uri: String,
+          ]
+      }
+    matcher = assert_json_match pattern, server_response.body
+  end
+
 #  def test_json_first_resource
 #    server_response = get "/resources/#{Resource.first.id}"
 #    assert_equal 200, last_response.status

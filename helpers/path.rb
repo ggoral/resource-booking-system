@@ -48,11 +48,8 @@ helpers do
 
   def bookings_links(bookings)
     links = [] << link_path(request.url)
-    #ActiveSupport::JSON::Encoding.escape_html_entities_in_json = true
     cadena = "&"
     puts cadena.to_json
-    #cadena = html_escapes(cadena)
-    #puts cadena.to_json
     links
   end
   
