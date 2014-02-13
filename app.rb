@@ -48,9 +48,14 @@ end
 get '/resources/:resource_id/bookings' do
   date = params['date'] ? params['date'].to_date : Date.today + 1
   limit = params['limit'] ? params['limit'] : 30 
-  status = params['status'] ? params['status'] : 'aproved' 
+  status = params['status'] ? params['status'] : 'aproved'
+  status = nil if status == 'all'
+  limit = date + limit.to_i
+  
   puts params, date, limit, status
-  @bookings = @resource.bookings
+  #como pregunto si los valores estan bien.
+  #@bookings = @resource.bookings
+  @bookings = @resource.book(date,limit,status)
   jbuilder :bookings
 end
 
@@ -84,14 +89,14 @@ get '/load' do
     description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
   
   booking = resource.bookings.create(
-    start: Time.now.utc.iso8601.to_date, 
-    end: (Time.now.utc.iso8601.to_date+1), 
+    start: "2013-10-26T10:00:00Z".to_time.utc.iso8601, 
+    end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), 
     status: 'aproved', 
     user: 'someuser@gmail.com')
   
   booking = resource.bookings.create(
-    start: Time.now.utc.iso8601.to_date,
-    end: (Time.now.utc.iso8601.to_date+1), 
+    start: "2013-10-26T11:00:00Z".to_time.utc.iso8601,
+    end: ("2013-10-26T12:30:00Z".to_time.utc.iso8601), 
     status: 'aproved', 
     user: 'otheruser@gmail.com')
 
@@ -100,6 +105,6 @@ get '/load' do
       description: "Monitor de 24 pulgadas SAMSUNG")
   
   resource = Resource.create(
-      name: "Monitor",
-      description: "Monitor de 24 pulgadas SAMSUNG")
+      name: "Sala de reuniones",
+      description: "Sala de reuniones con máquinas y proyector")
 end
