@@ -1,9 +1,5 @@
 helpers do
 
-  def periods_availables(arr, from, to)
-    ([from] + arr.flatten + [to]).each_slice(2).to_a
-  end
-
   def base_url
     @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
