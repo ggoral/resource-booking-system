@@ -6,6 +6,8 @@ class Booking < ActiveRecord::Base
   validates :resource, :start, :end, presence: true
   validates :status, inclusion: ["pending", "approved"]
 
+  scope :between, -> (from, to) { where("start <= ? AND end >= ?", from, to) }
+    
   protected
   def set_pending_status
     self.status = "pending"

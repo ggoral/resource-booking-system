@@ -48,8 +48,6 @@ helpers do
 
   def bookings_links(bookings)
     links = [] << link_path(request.url)
-    cadena = "&"
-    puts cadena.to_json
     links
   end
   

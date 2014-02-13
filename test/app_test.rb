@@ -31,4 +31,5 @@ class AppTest < Minitest::Unit::TestCase
     }
     matcher = assert_json_match pattern, server_response.body
   end
+  
 end
