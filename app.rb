@@ -69,10 +69,8 @@ get '/resources/:resource_id/availability' do
   halt 400 if limit > 365
   limit = date + limit
 
-  @approveds = @resource.book(date, limit, 'approved').pluck(:start, :end)
   @available_resource_id = params[:resource_id]
-  @availables = periods_availables(@approveds.flatten, date.to_time.utc.iso8601, limit.to_time.utc.iso8601)
-  #puts @availables
+  @availables = @resource.periods_availables(date.to_time.utc.iso8601, limit.to_time.utc.iso8601)
   jbuilder :availables
 end
 
@@ -92,7 +90,7 @@ get '/resources/:resource_id/bookings/:booking_id' do
 end
 
 get '/load' do
-  #Load development database to test
+  #Load a clean development database to test
   ActiveRecord::Base.connection.execute('DELETE FROM SQLITE_SEQUENCE WHERE name="resources";') 
   ActiveRecord::Base.connection.execute('DELETE FROM SQLITE_SEQUENCE WHERE name="bookings";')
   Resource.destroy_all

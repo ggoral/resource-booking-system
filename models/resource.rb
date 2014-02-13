@@ -13,4 +13,13 @@ class Resource < ActiveRecord::Base
     book(from, to, 'pending').empty?
   end
 
+  def approveds(from, to)
+    book(from, to, 'approved').pluck(:start, :end).flatten
+  end
+
+  def periods_availables(from, to)
+    arr = book(from, to, 'approved').pluck(:start, :end).flatten
+    ([from] + arr.flatten + [to]).each_slice(2).to_a
+  end
+
 end

@@ -43,4 +43,19 @@ class ResourceTest < Minitest::Unit::TestCase
     refute(Resource.new(description: "description").valid?)
   end
 
+  def test_book_method
+    assert(Resource.new(name: "resource", description: "description").valid?)
+    assert(Resource.new(name: "resource").valid?)
+    refute(Resource.new().valid?)
+    refute(Resource.new(description: "description").valid?)
+  end
+
+  def test_available_method
+    assert(Resource.new(name: "resource", description: "description").valid?)
+    assert(Resource.new(name: "resource").valid?)
+    refute(Resource.new().valid?)
+    refute(Resource.new(description: "description").valid?)
+  end
+
+
 end
