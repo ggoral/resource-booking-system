@@ -63,6 +63,4 @@ helpers do
     links
   end
 
-
-    
 end

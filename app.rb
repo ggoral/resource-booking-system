@@ -75,7 +75,19 @@ get '/resources/:resource_id/availability' do
 end
 
 post '/resources/:resource_id/bookings' do
+  puts params
+  from, to = params['from'].to_time.utc.iso8601, params['to'].to_time.utc.iso8601
+  if @resource.available?(from, to)
+    booking = @resource.bookings.create(start: from, end: to)
+    status 201
+    #jbuilder :booking 
+  else
+    halt 409
+  end
+
 #  status 201
+#  POST /resources/1/bookings HTTP/1.1
+#  curl --data 'from=2013-11-12T00:00:00&to=2013-11-12T00:00:00'
 end
 
 delete '/resources/:resource_id/bookings/:booking_id' do
