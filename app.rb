@@ -69,7 +69,10 @@ get '/resources/:resource_id/availability' do
   halt 400 if limit > 365
   limit = date + limit
 
-  @availables = @resource.book(date, limit, 'approved')
+  @approveds = @resource.book(date, limit, 'approved').pluck(:start, :end)
+  @available_resource_id = params[:resource_id]
+  @availables = periods_availables(@approveds.flatten, date.to_time.utc.iso8601, limit.to_time.utc.iso8601)
+  #puts @availables
   jbuilder :availables
 end
 

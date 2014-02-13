@@ -1,5 +1,9 @@
 helpers do
 
+  def periods_availables(arr, from, to)
+    ([from] + arr.flatten + [to]).each_slice(2).to_a
+  end
+
   def base_url
     @base_url ||= "#{request.env['rack.url_scheme']}://#{request.env['HTTP_HOST']}"
   end
@@ -51,14 +55,14 @@ helpers do
     links
   end
 
-  def available_links(available)
+  def available_links(resource_id)
     links = [] 
-    links << link_path(options_path("resource_availability", available.resource_id), :book, 'POST')
-    links << link_path(options_path("resource", available.resource_id), :resource)
+    links << link_path(options_path("resource_availability", resource_id), :book, 'POST')
+    links << link_path(options_path("resource", resource_id), :resource)
     links
   end
 
-  def available_links(availables)
+  def availables_links
     links = [] << link_path(request.url)
     links
   end
