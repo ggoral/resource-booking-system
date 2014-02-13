@@ -47,19 +47,30 @@ end
 
 get '/resources/:resource_id/bookings' do
   date = params['date'] ? params['date'].to_date : Date.today + 1
-  limit = params['limit'] ? params['limit'] : 30 
-  status = params['status'] ? params['status'] : 'aproved'
-  status = nil if status == 'all'
-  limit = date + limit.to_i
+  halt 400 unless date.is_a? Date
   
-  puts params, date, limit, status
-  #como pregunto si los valores estan bien.
-  #@bookings = @resource.bookings
+  limit = params['limit'] ? params['limit'] : 30 
+  halt 400 if limit.to_i > 365
+  limit = date + limit.to_i.abs
+
+  status = params['status'] ? params['status'] : 'approved'
+  halt 400 unless ['approved','pending','all'].include? status
+  status = nil if status == 'all'
+  
   @bookings = @resource.book(date,limit,status)
   jbuilder :bookings
 end
 
 get '/resources/:resource_id/availability' do
+  date = params['date'] ? params['date'].to_date : Date.today + 1
+  halt 400 unless date.is_a? Date
+
+  limit = params['limit'] ? params['limit'].to_i.abs : 30 
+  halt 400 if limit > 365
+  limit = date + limit
+
+  @availables = @resource.book(date, limit, 'approved')
+  jbuilder :availables
 end
 
 post '/resources/:resource_id/bookings' do
@@ -91,13 +102,14 @@ get '/load' do
   booking = resource.bookings.create(
     start: "2013-10-26T10:00:00Z".to_time.utc.iso8601, 
     end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), 
-    status: 'aproved', 
+    status: 'approved', 
     user: 'someuser@gmail.com')
   
+  booking.update(status: 'approved')
   booking = resource.bookings.create(
     start: "2013-10-26T11:00:00Z".to_time.utc.iso8601,
     end: ("2013-10-26T12:30:00Z".to_time.utc.iso8601), 
-    status: 'aproved', 
+    status: 'approved', 
     user: 'otheruser@gmail.com')
 
   resource = Resource.create(

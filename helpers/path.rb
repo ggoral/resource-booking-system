@@ -50,5 +50,19 @@ helpers do
     links = [] << link_path(request.url)
     links
   end
-  
+
+  def available_links(available)
+    links = [] 
+    links << link_path(options_path("resource_availability", available.resource_id), :book, 'POST')
+    links << link_path(options_path("resource", available.resource_id), :resource)
+    links
+  end
+
+  def available_links(availables)
+    links = [] << link_path(request.url)
+    links
+  end
+
+
+    
 end
