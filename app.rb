@@ -50,7 +50,8 @@ get '/resources/:resource_id/bookings' do
   halt 400 unless date.is_a? Date
   
   limit = params['limit'] ? params['limit'] : 30 
-  halt 400 if limit.to_i > 365
+  #corregir aca testear que este entre 0 y 365. si es nill es 30
+  halt 400 if Integer limit > 365
   limit = date + limit.to_i.abs
 
   status = params['status'] ? params['status'] : 'approved'

@@ -67,7 +67,7 @@ class AppApiTest < Minitest::Unit::TestCase
   end
 
   def test_fail_get_all_bookings_resource_with_param_limit_invalid
-    server_response = get "/resources/#{@resource.id}/bookings?date=2013-10-26&limit=366&status=pending"
+    get "/resources/#{@resource.id}/bookings?date=2013-10-26&limit=366&status=pending"
     assert_equal 400, last_response.status
   end
 
