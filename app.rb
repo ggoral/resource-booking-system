@@ -6,9 +6,10 @@ require 'json'
 ENV['RACK_ENV'] ||= 'development'
 Bundler.require :default, ENV['RACK_ENV'].to_sym
 
-# Configuration
+# Config
 ActiveRecord::Base.logger = nil
 ActiveSupport.escape_html_entities_in_json = false
+I18n.enforce_available_locales = false
 
 
 Dir[File.dirname(__FILE__) + '/models/*.rb'].each { |ruby_file| require_relative ruby_file }
@@ -50,8 +51,8 @@ get '/resources/:resource_id/bookings' do
   halt 400 unless date.is_a? Date
   
   limit = params['limit'] ? params['limit'] : 30 
-  #corregir aca testear que este entre 0 y 365. si es nill es 30
-  halt 400 if Integer limit > 365
+  #corregir aca, testear que este entre 0 y 365. si es nill es 30
+  halt 400 if Integer limit and (Integer limit) > 365
   limit = date + limit.to_i.abs
 
   status = params['status'] ? params['status'] : 'approved'
