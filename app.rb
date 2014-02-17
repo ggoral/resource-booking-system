@@ -30,12 +30,6 @@ before '/resources/:resource_id/bookings/:booking_id' do
   halt 404 unless @booking
 end
 
-# Remove this method before release
-get '/' do
-  @url = request.url
-  jbuilder :url
-end
-
 get '/resources/:resource_id' do
   @resource = Resource.find_by(id: params[:resource_id])
   jbuilder :resource

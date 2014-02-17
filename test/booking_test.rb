@@ -42,12 +42,12 @@ class BookingTest < Minitest::Unit::TestCase
     booking = Booking.new(resource_id: @resource.id, start: Date.today, end: (Date.today+1))
     booking.status = 'approved'
     assert(booking.valid?)
-    #negar este test y los siguientes y el estado rejacted y probar con status cancelado
+    #REFACTOR! negar este test y los siguientes y el estado rejacted y probar con status cancelado
   end
 
   def test_callback_set_pending_status
-    @booking = @resource.bookings.create(start: Date.today, end: (Date.today+1))
-    assert_equal(@booking.status, 'pending')
+    booking = @resource.bookings.create(start: Date.today, end: (Date.today+1))
+    assert_equal(booking.status, 'pending')
   end
 
 end

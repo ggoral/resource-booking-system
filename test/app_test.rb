@@ -11,25 +11,5 @@ class AppTest < Minitest::Unit::TestCase
     content_type = response.headers['Content-Type']
     assert_equal 'application/json;charset=utf-8', content_type
   end
-
-  def test_get_root
-    get '/'
-    assert_content_type_is_json last_response
-    assert_equal 200, last_response.status
-  end
-
-  def test_json
-    server_response = get '/'
-    assert_content_type_is_json last_response
-    assert_equal 200, last_response.status
-
-    json = JSON.parse server_response.body
-
-    assert url = json
-    pattern = {        
-        url: "http://example.org/"
-    }
-    matcher = assert_json_match pattern, server_response.body
-  end
   
 end
