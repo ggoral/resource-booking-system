@@ -39,6 +39,41 @@ $ bundle exec rake
 ```bash
 $ curl -G --data 'param1=value1&param2=value2' -vvv http://localhost:9292/
 ```
+## Add methods for load databases on app.rb
+~~~~~ ruby
+get '/load' do
+  #Load a clean development database to test
+  ActiveRecord::Base.connection.execute('DELETE FROM SQLITE_SEQUENCE WHERE name="resources";') 
+  ActiveRecord::Base.connection.execute('DELETE FROM SQLITE_SEQUENCE WHERE name="bookings";')
+  Resource.destroy_all
+  Booking.destroy_all
+  
+  resource = Resource.create( 
+    name: 'Computadora', 
+    description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
+  
+  booking = resource.bookings.create(
+    start: "2013-10-26T10:00:00Z".to_time.utc.iso8601, 
+    end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), 
+    status: 'approved', 
+    user: 'someuser@gmail.com')
+  
+  booking.update(status: 'approved')
+  booking = resource.bookings.create(
+    start: "2013-10-26T11:00:00Z".to_time.utc.iso8601,
+    end: ("2013-10-26T12:30:00Z".to_time.utc.iso8601), 
+    status: 'approved', 
+    user: 'otheruser@gmail.com')
+
+  resource = Resource.create(
+      name: "Monitor",
+      description: "Monitor de 24 pulgadas SAMSUNG")
+  
+  resource = Resource.create(
+      name: "Sala de reuniones",
+      description: "Sala de reuniones con máquinas y proyector")
+~~~~~
+
 
 ## Contributing
 
