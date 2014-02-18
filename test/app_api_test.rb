@@ -77,9 +77,14 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_non_existent_resource 'availability'
   end
 
-  def assert_get_resources_with_date_limit_status(verb)
-    get "/resources/#{@resource.id}/#{verb}?date=2013-10-26&limit=365&status=pending"
+  def assert_get_resources_with_date_limit_status(verb, date=nil, limit=nil, status=nil)
+    get "/resources/#{@resource.id}/#{verb}?date=#{date}&limit=#{limit}&status=#{status}"
     assert_response_ok
+  end
+
+  def refute_get_resources_with_date_limit_status(verb, date=nil, limit=nil, status=nil)
+    get "/resources/#{@resource.id}/#{verb}?date=#{date}&limit=#{limit}&status=#{status}"
+    assert_response_bad_request
   end
 
   def assert_get_resources_with_date(verb, date=nil)
@@ -98,9 +103,12 @@ class AppApiTest < Minitest::Unit::TestCase
   end
 
   def test_assert_get_all_bookings_resource_with_params
-    assert_get_resources_with_date_limit_status 'bookings'
-    assert_get_resources_with_date_limit_status 'availability'
+    assert_get_resources_with_date_limit_status('bookings', '2013-10-26','365', 'pending')
+    assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
 
+    refute_get_resources_with_date_limit_status('bookings', '2013-10-26','366', 'pending')
+    assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
+    
     assert_get_resources_with_date('bookings','2013-10-26')
     assert_get_resources_with_date('availability','2013-10-26')
 
