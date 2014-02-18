@@ -41,7 +41,6 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_equal 409, last_response.status
   end
 
-
   def test_assert_get_resources
     get '/resources'
     assert_response_ok 
@@ -62,19 +61,9 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_response_ok
   end
 
-  def test_assert_get_resource
-    assert_get_resource 'bookings'
-    assert_get_resource 'availability'
-  end
-
   def assert_non_existent_resource(verb)
     get "/resources/#{Resource.last.id.to_i + 1}/#{verb}"
     assert_response_not_found
-  end
-
-  def test_non_existent_resource
-    assert_non_existent_resource 'bookings'
-    assert_non_existent_resource 'availability'
   end
 
   def assert_get_resources_with_date_limit_status(verb, date=nil, limit=nil, status=nil)
@@ -102,23 +91,6 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_response_ok
   end
 
-  def test_assert_get_all_bookings_resource_with_params
-    assert_get_resources_with_date_limit_status('bookings', '2013-10-26','365', 'pending')
-    assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
-
-    refute_get_resources_with_date_limit_status('bookings', '2013-10-26','366', 'pending')
-    refute_get_resources_with_date_limit_status('availability', '2013-10-26','366', 'pending')
-
-    assert_get_resources_with_date('bookings','2013-10-26')
-    assert_get_resources_with_date('availability','2013-10-26')
-
-    assert_get_resources_with_limit('bookings','1')
-    assert_get_resources_with_limit('availability','1')
-
-    assert_get_resources_with_status('bookings','pending')
-    assert_get_resources_with_status('availability','pending')
-  end
-
   def test_assert_post_bookings_resource_without_params
     post "/resources/#{@resource.id}/bookings"
     assert_response_bad_request
@@ -144,19 +116,46 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_response_conflict
   end
 
-  def test_all_methods
-    get "/resources/#{@resource.id}/availability"
+  def assert_put_resources_booking booking
+    put "/resources/#{@resource.id}/bookings/#{booking.id}"
     assert_response_ok
+  end
 
-    put "/resources/#{@resource.id}/bookings/#{@booking.id}"
+  def assert_get_resources_booking booking
+    get "/resources/#{@resource.id}/bookings/#{booking.id}"
     assert_response_ok
+  end
 
-    get "/resources/#{@resource.id}/bookings/#{@booking.id}"
+  def assert_delete_resources_booking booking
+    delete "/resources/#{@resource.id}/bookings/#{booking.id}"
     assert_response_ok
+  end
 
-    delete "/resources/#{@resource.id}/bookings/#{@booking_delete.id}"
-    assert_response_ok
+  def test_all_common_methods
+    assert_get_resource 'bookings'
+    assert_get_resource 'availability'
 
+    assert_non_existent_resource 'bookings'
+    assert_non_existent_resource 'availability'
+
+    assert_get_resources_with_date_limit_status('bookings', '2013-10-26','365', 'pending')
+    assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
+
+    refute_get_resources_with_date_limit_status('bookings', '2013-10-26','366', 'pending')
+    refute_get_resources_with_date_limit_status('availability', '2013-10-26','366', 'pending')
+
+    assert_get_resources_with_date('bookings','2013-10-26')
+    assert_get_resources_with_date('availability','2013-10-26')
+
+    assert_get_resources_with_limit('bookings','1')
+    assert_get_resources_with_limit('availability','1')
+
+    assert_get_resources_with_status('bookings','pending')
+    assert_get_resources_with_status('availability','pending')
+
+    assert_put_resources_booking @booking
+    assert_get_resources_booking @booking
+    assert_delete_resources_booking @booking_delete
   end
 
 end
