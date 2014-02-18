@@ -44,18 +44,40 @@ class ResourceTest < Minitest::Unit::TestCase
   end
 
   def test_book_method
-    assert(Resource.new(name: "resource", description: "description").valid?)
-    assert(Resource.new(name: "resource").valid?)
-    refute(Resource.new().valid?)
-    refute(Resource.new(description: "description").valid?)
+    resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
+    booking = resource.bookings.create(start: ("2013-03-03T00:00:00Z".to_time.utc.iso8601) , end: ("2013-03-03T23:59:59Z".to_time.utc.iso8601), status: 'pending')
+    
+    
+    assert_equal(1, resource.book("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
+    refute_equal(2, resource.book("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
   end
 
   def test_available_method
-    assert(Resource.new(name: "resource", description: "description").valid?)
-    assert(Resource.new(name: "resource").valid?)
-    refute(Resource.new().valid?)
-    refute(Resource.new(description: "description").valid?)
+    resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
+    booking = resource.bookings.create(start: ("2013-03-03T00:00:00Z".to_time.utc.iso8601) , end: ("2013-03-03T23:59:59Z".to_time.utc.iso8601), status: 'pending')
+    
+    refute(resource.available?("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601))
+    booking.update(status: 'approved')
+    assert(resource.available?("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601))
   end
 
+  def test_approveds_method
+    resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
+    booking = resource.bookings.create(start: ("2013-03-03T00:00:00Z".to_time.utc.iso8601) , end: ("2013-03-03T23:59:59Z".to_time.utc.iso8601), status: 'pending')
+    
+    
+    assert_equal(0,resource.approveds("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
+    booking.update(status: 'approved')
+    assert_equal(2,resource.approveds("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
+  end
+  
+  def test_periods_availables_method
+    resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
+    booking = resource.bookings.create(start: ("2013-03-03T00:00:00Z".to_time.utc.iso8601) , end: ("2013-03-03T23:59:59Z".to_time.utc.iso8601), status: 'pending')
+    
+    assert_equal(1,resource.periods_availables("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
+    booking.update(status: 'approved')
+    assert_equal(2,resource.periods_availables("2013-03-02T00:00:00Z".to_time.utc.iso8601, "2013-03-04T23:59:59Z".to_time.utc.iso8601).size)
+  end
 
 end

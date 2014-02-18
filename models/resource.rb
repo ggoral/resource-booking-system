@@ -18,7 +18,7 @@ class Resource < ActiveRecord::Base
   end
 
   def periods_availables(from, to)
-    arr = book(from, to, 'approved').pluck(:start, :end).flatten
+    arr = approveds(from, to).flatten
     ([from] + arr.flatten + [to]).each_slice(2).to_a
   end
 
