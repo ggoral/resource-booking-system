@@ -107,8 +107,8 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
 
     refute_get_resources_with_date_limit_status('bookings', '2013-10-26','366', 'pending')
-    assert_get_resources_with_date_limit_status('availability', '2013-10-26','365', 'pending')
-    
+    refute_get_resources_with_date_limit_status('availability', '2013-10-26','366', 'pending')
+
     assert_get_resources_with_date('bookings','2013-10-26')
     assert_get_resources_with_date('availability','2013-10-26')
 
