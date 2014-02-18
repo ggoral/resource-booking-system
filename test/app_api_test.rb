@@ -119,11 +119,6 @@ class AppApiTest < Minitest::Unit::TestCase
     assert_get_resources_with_status('availability','pending')
   end
 
-  def test_fail_get_all_bookings_resource_with_param_limit_invalid
-    get "/resources/#{@resource.id}/bookings?date=2013-10-26&limit=366&status=pending"
-    assert_response_bad_request
-  end
-
   def test_assert_post_bookings_resource_without_params
     post "/resources/#{@resource.id}/bookings"
     assert_response_bad_request
