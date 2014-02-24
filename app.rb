@@ -41,29 +41,21 @@ get '/resources' do
 end
 
 get '/resources/:resource_id/bookings' do
-  date = params['date'] ? params['date'].to_date : Date.today + 1
-  halt 400 unless date.is_a? Date
-  
-  limit = params['limit'] ? params['limit'] : 30 
-  #corregir aca, testear que este entre 0 y 365. si es nill es 30
-  halt 400 if Integer limit and (Integer limit) > 365
-  limit = date + limit.to_i.abs
+  date = validate_param_date params['date']
+  limit = validate_param_limit params['limit']
+  status = validate_param_status params['status']
 
-  status = params['status'] ? params['status'] : 'approved'
-  halt 400 unless ['approved','pending','all'].include? status
-  status = nil if status == 'all'
+  limit = date + limit.to_i.abs
   
   @bookings = @resource.book(date,limit,status)
   jbuilder :bookings
 end
 
 get '/resources/:resource_id/availability' do
-  date = params['date'] ? params['date'].to_date : Date.today + 1
-  halt 400 unless date.is_a? Date
-
-  limit = params['limit'] ? params['limit'].to_i.abs : 30 
-  halt 400 if limit > 365
-  limit = date + limit
+  date = validate_param_date params['date']
+  limit = validate_param_limit params['limit']
+    
+  limit = date + limit.to_i.abs
 
   @available_resource_id = params[:resource_id]
   @availables = @resource.periods_availables(date.to_time.utc.iso8601, limit.to_time.utc.iso8601)
