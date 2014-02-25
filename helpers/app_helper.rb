@@ -1,9 +1,11 @@
 helpers do
 
   include BaseLinks
-  include ResourceLinks
-  include BookingLinks
+
   include AvailableLinks
+  include BookingLinks
+  include ResourceLinks
+  
   include Validations
 
 end
