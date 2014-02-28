@@ -63,9 +63,8 @@ get '/resources/:resource_id/availability' do
 end
 
 post '/resources/:resource_id/bookings' do
-  halt 400 unless params.include? 'from' and params.include? 'to'
-
-  from, to = params['from'], params['to']
+  from = validate_present_param params['from']
+  to = validate_present_param params['to']
   
   if @resource.available?(from, to)
     @booking = @resource.bookings.create(start: from, end: to)

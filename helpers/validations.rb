@@ -13,10 +13,15 @@ module Validations
   end
 
   def validate_param_status(status)
-    status = params['status'] ? params['status'] : 'approved'
+    status = status ? status : 'approved'
     halt 400 unless ['approved','pending','all'].include? status
     status = nil if status == 'all'
     status
+  end
+
+  def validate_present_param(param)
+    halt 400 if param.nil?
+    param
   end
 
 end
