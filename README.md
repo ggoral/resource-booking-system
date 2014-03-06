@@ -40,6 +40,7 @@ $ bundle exec rake
 $ curl -G --data 'param1=value1&param2=value2' -vvv http://localhost:9292/
 ```
 ## Add methods for load databases on app.rb
+
 ~~~~~ ruby
 get '/load' do
   #Load a clean development database to test

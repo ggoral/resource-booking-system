@@ -28,6 +28,7 @@ module BaseLinks
 
 end
 
+
 module ResourceLinks
 
   def resource_links(resource)
@@ -42,6 +43,7 @@ module ResourceLinks
   end
 
 end
+
 
 module BookingLinks
 
@@ -60,6 +62,7 @@ module BookingLinks
   end
 
 end
+
 
 module AvailableLinks
   
