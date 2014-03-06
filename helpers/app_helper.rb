@@ -1,11 +1,1 @@
-helpers do
-
-  include BaseLinks
-
-  include AvailableLinks
-  include BookingLinks
-  include ResourceLinks
-  
-  include Validations
-
-end
+helpers AvailableLinks, BaseLinks, BookingLinks, ResourceLinks, Validations
