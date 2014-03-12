@@ -75,6 +75,21 @@ get '/load' do
       description: "Sala de reuniones con máquinas y proyector")
 ~~~~~
 
+## TODO
+
+Los recursos de la API no se asocian a una entidad, por lo tanto los recursos
+serán comunes a todos los proyectos redmine. Si desea puede modificar la API
+agregando a los recursos un campo entity al recurso que podría usarse en este
+caso como id de proyecto. Entonces, la API debería agregar un servicio:
+
+  * `GET /resources_for_entity/:entity` que devolvería los recursos para una
+    entidad específica
+
+Sería conveniente agregar en la API un servicio de agregado y modificación de
+recursos:
+
+  * `POST /resources` crea un nuevo recurso
+  * `PUT /resources/:id` actualiza los datos de un recurso
 
 ## Contributing
 
