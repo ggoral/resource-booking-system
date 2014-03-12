@@ -19,7 +19,7 @@ module Validations
     status
   end
 
-  def validate_present_param(param)
+  def validate_presence_param(param) 
     halt 400 if param.nil?
     param
   end

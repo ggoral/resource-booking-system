@@ -63,8 +63,8 @@ get '/resources/:resource_id/availability' do
 end
 
 post '/resources/:resource_id/bookings' do
-  from = validate_present_param params['from']
-  to = validate_present_param params['to']
+  from = validate_presence_param params['from']
+  to = validate_presence_param params['to']
   
   if @resource.available?(from, to)
     @booking = @resource.bookings.create(start: from, end: to)
@@ -74,6 +74,11 @@ post '/resources/:resource_id/bookings' do
     halt 409
   end
 end
+
+post '/resources' do
+  name = validate_presence_param params['name']
+end
+
 
 delete '/resources/:resource_id/bookings/:booking_id' do
   @booking.destroy ? status(200) : halt(409)
