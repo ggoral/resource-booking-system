@@ -77,6 +77,11 @@ end
 
 post '/resources' do
   name = validate_presence_param params['name']
+  description = params['description']
+
+  @resource = Resource.create( name: name, description: description)
+
+  jbuilder :resource
 end
 
 

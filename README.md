@@ -88,7 +88,7 @@ caso como id de proyecto. Entonces, la API debería agregar un servicio:
 Sería conveniente agregar en la API un servicio de agregado y modificación de
 recursos:
 
-  * `POST /resources` crea un nuevo recurso
+  * `POST /resources` crea un nuevo recurso (terminado)
   * `PUT /resources/:id` actualiza los datos de un recurso
 
 ## Contributing

@@ -40,4 +40,34 @@ class ResourceTest < Minitest::Unit::TestCase
     assert_response_ok
   end
 
+def test_post_resources_valid_parameters
+    post '/resources?name=aResourceName&description=aResourceDescription'
+    assert_response_ok
+end
+
+def test_post_resources_valid_parameter_with_invalid_parameter
+    post '/resources?name=aResourceName&parameter=aParameter'
+    assert_response_ok
+end
+
+def test_json_new_resource
+    server_response = post '/resources?name=aResourceName&description=aResourceDescription'
+    assert_equal 200, last_response.status
+
+    json = JSON.parse server_response.body
+    assert resource = json['resource']
+
+    pattern = {        
+        resource: {
+            name: 'aResourceName',
+            description: 'aResourceDescription',
+            links:[
+              rel: String,
+              uri: String,
+              ] * json['resource']['links'].size 
+            }
+        }
+    matcher = assert_json_match pattern, server_response.body
+  end
+
 end
