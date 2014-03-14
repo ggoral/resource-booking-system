@@ -89,7 +89,7 @@ Sería conveniente agregar en la API un servicio de agregado y modificación de
 recursos:
 
   * `POST /resources` crea un nuevo recurso (terminado)
-  * `PUT /resources/:id` actualiza los datos de un recurso
+  * `PUT /resources/:id` actualiza los datos de un recurso (empezando test)
 
 ## Contributing
 
