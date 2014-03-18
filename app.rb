@@ -31,7 +31,7 @@ before '/resources/:resource_id/bookings/:booking_id' do
 end
 
 get '/resources/:resource_id' do
-  @resource = Resource.find_by(id: params[:resource_id])
+  #@resource = Resource.find_by(id: params[:resource_id])
   jbuilder :resource
 end
 
@@ -86,7 +86,7 @@ end
 
 put '/resources/:resource_id' do
   name = validate_presence_param params['name']
-  description = params['description']
+#  description = params['description']
 
 #  @resource = Resource.create( name: name, description: description)
 
