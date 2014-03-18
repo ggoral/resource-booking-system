@@ -84,6 +84,16 @@ post '/resources' do
   jbuilder :resource
 end
 
+put '/resources/:resource_id' do
+  name = validate_presence_param params['name']
+  description = params['description']
+
+#  @resource = Resource.create( name: name, description: description)
+
+#  jbuilder :resource
+end
+
+
 
 delete '/resources/:resource_id/bookings/:booking_id' do
   @booking.destroy ? status(200) : halt(409)

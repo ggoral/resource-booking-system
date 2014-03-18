@@ -11,6 +11,7 @@ class ResourceTest < Minitest::Unit::TestCase
   def setup
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
+    Resource.create( name: 'aResourceName', description: 'aResourceDescription')
   end
 
   def teardown
@@ -25,15 +26,24 @@ class ResourceTest < Minitest::Unit::TestCase
     assert_equal 400, last_response.status
   end
 
+  def assert_response_not_found
+    assert_equal 404, last_response.status
+  end
+
   def test_put_a_resources_without_resource_id
     put '/resources/'
-    assert_response_bad_request
+    assert_response_not_found
   end
   
-  #def test_post_resources_invalid_parameter
-    #post '/resources?id=aResourceName'
-    #assert_response_bad_request
-  #end
+  def test_put_a_resources_without_parameter
+    put '/resources/1'
+    assert_response_bad_request
+  end
+
+  def test_post_resources_invalid_parameter
+    put '/resources/1?id=aResourceId'
+    assert_response_bad_request
+  end
 #
   #def test_post_resources_valid_parameter
     #post '/resources?name=aResourceName'
