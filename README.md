@@ -76,6 +76,7 @@ get '/load' do
 ~~~~~
 
 ## TODO
+  * Refactorizar y renombrar los Test
 
 Los recursos de la API no se asocian a una entidad, por lo tanto los recursos
 serán comunes a todos los proyectos redmine. Si desea puede modificar la API
@@ -89,7 +90,7 @@ Sería conveniente agregar en la API un servicio de agregado y modificación de
 recursos:
 
   * `POST /resources` crea un nuevo recurso (terminado)
-  * `PUT /resources/:id` actualiza los datos de un recurso (empezando test)
+  * `PUT /resources/:id` actualiza los datos de un recurso (validar test)
 
 ## Contributing
 
