@@ -1,6 +1,7 @@
 require 'bundler'
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'sinatra/param'
 require 'json'
 
 ENV['RACK_ENV'] ||= 'development'
@@ -85,7 +86,10 @@ post '/resources' do
 end
 
 put '/resources/:resource_id' do
-  name = validate_presence_param params['name']
+  param :name,           String, required: true
+  #name = params['name']
+#  name = validate_allowed_param(params['name'], ['name','description'])
+#  description = validate_allowed_param(params['description'], ['name','description'])
 #  description = params['description']
 
 #  @resource = Resource.create( name: name, description: description)

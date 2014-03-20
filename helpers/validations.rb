@@ -24,4 +24,9 @@ module Validations
     param
   end
 
+  def validate_allowed_param(param, arr) 
+    halt 400 if arr.include? param
+    param
+  end
+
 end
