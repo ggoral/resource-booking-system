@@ -32,7 +32,20 @@ before '/resources/:resource_id/bookings/:booking_id' do
 end
 
 get '/resources/:resource_id' do
-  #@resource = Resource.find_by(id: params[:resource_id])
+  jbuilder :resource
+end
+
+put '/resources/:resource_id' do
+  validate_permited_params(params, ['name','description'])
+
+  name = params['name']
+  description = params['description']
+
+  if (name or description) then
+    @resource.update(name: name) if name
+    @resource.update(description: description) if description
+  end
+
   jbuilder :resource
 end
 
@@ -41,15 +54,13 @@ get '/resources' do
   jbuilder :resources
 end
 
-get '/resources/:resource_id/bookings' do
-  date = validate_param_date params['date']
-  limit = validate_param_limit params['limit']
-  status = validate_param_status params['status']
+post '/resources' do
+  name = validate_presence_param params['name']
+  description = params['description']
 
-  limit = date + limit.to_i.abs
-  
-  @bookings = @resource.book(date,limit,status)
-  jbuilder :bookings
+  @resource = Resource.create( name: name, description: description)
+
+  jbuilder :resource
 end
 
 get '/resources/:resource_id/availability' do
@@ -61,6 +72,17 @@ get '/resources/:resource_id/availability' do
   @available_resource_id = params[:resource_id]
   @availables = @resource.periods_availables(date.to_time.utc.iso8601, limit.to_time.utc.iso8601)
   jbuilder :availables
+end
+
+get '/resources/:resource_id/bookings' do
+  date = validate_param_date params['date']
+  limit = validate_param_limit params['limit']
+  status = validate_param_status params['status']
+
+  limit = date + limit.to_i.abs
+  
+  @bookings = @resource.book(date,limit,status)
+  jbuilder :bookings
 end
 
 post '/resources/:resource_id/bookings' do
@@ -75,29 +97,6 @@ post '/resources/:resource_id/bookings' do
     halt 409
   end
 end
-
-post '/resources' do
-  name = validate_presence_param params['name']
-  description = params['description']
-
-  @resource = Resource.create( name: name, description: description)
-
-  jbuilder :resource
-end
-
-put '/resources/:resource_id' do
-  param :name, String, required: true
-  #name = params['name']
-#  name = validate_allowed_param(params['name'], ['name','description'])
-#  description = validate_allowed_param(params['description'], ['name','description'])
-#  description = params['description']
-
-#  @resource = Resource.create( name: name, description: description)
-
-#  jbuilder :resource
-end
-
-
 
 delete '/resources/:resource_id/bookings/:booking_id' do
   @booking.destroy ? status(200) : halt(409)

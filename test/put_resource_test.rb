@@ -41,44 +41,48 @@ class PutResourceTest < Minitest::Unit::TestCase
     assert_response_bad_request
   end
 
-  def test_post_resources_invalid_parameter
+  def test_put_resources_invalid_parameter
     put '/resources/1?id=aResourceId'
     assert_response_bad_request
   end
 
-  def test_post_resources_valid_parameter
+  def test_put_resources_valid_parameter_name
     put '/resources/1?name=aResourceName'
     assert_response_ok
   end
 
-#def test_post_resources_valid_parameters
-    #post '/resources?name=aResourceName&description=aResourceDescription'
-    #assert_response_ok
-#end
-#
-#def test_post_resources_valid_parameter_with_invalid_parameter
-    #post '/resources?name=aResourceName&parameter=aParameter'
-    #assert_response_ok
-#end
-#
-#def test_json_new_resource
-    #server_response = post '/resources?name=aResourceName&description=aResourceDescription'
-    #assert_equal 200, last_response.status
-#
-    #json = JSON.parse server_response.body
-    #assert resource = json['resource']
-#
-    #pattern = {        
-        #resource: {
-            #name: 'aResourceName',
-            #description: 'aResourceDescription',
-            #links:[
-              #rel: String,
-              #uri: String,
-              #] * json['resource']['links'].size 
-            #}
-        #}
-    #matcher = assert_json_match pattern, server_response.body
-  #end
-#
+  def test_put_resources_valid_parameter_description
+    put '/resources/1?description=aResourceDescription'
+    assert_response_ok
+  end
+
+  def test_put_resources_valid_parameters
+      put '/resources/1?name=aResourceName&description=aResourceDescription'
+      assert_response_ok
+  end
+
+  def test_put_resources_valid_parameter_with_invalid_parameter
+     put '/resources/1?name=aResourceName&parameter=aParameter'
+     assert_response_ok
+  end
+
+  def test_json_update_resource
+    server_response = put '/resources/1?name=aNewResourceName&description=aNewResourceDescription'
+    json = JSON.parse server_response.body
+    
+    assert resource = json['resource']
+  
+    pattern = {        
+        resource: {
+            name: 'aNewResourceName',
+            description: 'aNewResourceDescription',
+            links:[
+              rel: String,
+              uri: String,
+              ] * json['resource']['links'].size 
+            }
+        }
+    matcher = assert_json_match pattern, server_response.body
+  end
+
 end
