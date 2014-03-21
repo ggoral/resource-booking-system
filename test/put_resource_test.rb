@@ -46,11 +46,11 @@ class PutResourceTest < Minitest::Unit::TestCase
     assert_response_bad_request
   end
 
-  #def test_post_resources_valid_parameter
-    #post '/resources?name=aResourceName'
-    #assert_response_ok
-  #end
-#
+  def test_post_resources_valid_parameter
+    put '/resources/1?name=aResourceName'
+    assert_response_ok
+  end
+
 #def test_post_resources_valid_parameters
     #post '/resources?name=aResourceName&description=aResourceDescription'
     #assert_response_ok

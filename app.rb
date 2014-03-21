@@ -86,7 +86,7 @@ post '/resources' do
 end
 
 put '/resources/:resource_id' do
-  param :name,           String, required: true
+  param :name, String, required: true
   #name = params['name']
 #  name = validate_allowed_param(params['name'], ['name','description'])
 #  description = validate_allowed_param(params['description'], ['name','description'])
