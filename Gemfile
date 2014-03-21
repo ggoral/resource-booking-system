@@ -5,7 +5,6 @@ gem 'sqlite3'
 gem 'activerecord'
 gem 'activesupport'
 gem 'sinatra-activerecord'
-gem 'sinatra-param'
 gem 'tilt-jbuilder', require: 'sinatra/jbuilder'
 
 group :development do
