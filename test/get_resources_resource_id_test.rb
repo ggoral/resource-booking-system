@@ -31,58 +31,18 @@ class GetResourcesResourceIdTest < Minitest::Unit::TestCase
     assert_equal 404, last_response.status
   end
 
-  def test_put_a_resources_without_resource_id
-    put '/resources/'
+  def test_get_a_resource_without_resource_id
+    get '/resources/'
     assert_response_not_found
   end
   
-  def test_put_a_resources_without_parameter
-    put '/resources/1'
-    assert_response_bad_request
-  end
-
-  def test_put_resources_invalid_parameter
-    put '/resources/1?id=aResourceId'
-    assert_response_bad_request
-  end
-
-  def test_put_resources_valid_parameter_name
-    put '/resources/1?name=aResourceName'
+  def test_get_a_resource
+    get '/resources/1'
     assert_response_ok
   end
 
-  def test_put_resources_valid_parameter_description
-    put '/resources/1?description=aResourceDescription'
-    assert_response_ok
+  def test_get_an_non_existent_resource
+    get "/resources/#{Resource.last.id.to_i.next}"
+    assert_response_not_found
   end
-
-  def test_put_resources_valid_parameters
-      put '/resources/1?name=aResourceName&description=aResourceDescription'
-      assert_response_ok
-  end
-
-  def test_put_resources_valid_parameter_with_invalid_parameter
-     put '/resources/1?name=aResourceName&parameter=aParameter'
-     assert_response_ok
-  end
-
-  def test_json_update_resource
-    server_response = put '/resources/1?name=aNewResourceName&description=aNewResourceDescription'
-    json = JSON.parse server_response.body
-    
-    assert resource = json['resource']
-  
-    pattern = {        
-        resource: {
-            name: 'aNewResourceName',
-            description: 'aNewResourceDescription',
-            links:[
-              rel: String,
-              uri: String,
-              ] * json['resource']['links'].size 
-            }
-        }
-    matcher = assert_json_match pattern, server_response.body
-  end
-
 end
