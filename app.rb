@@ -1,7 +1,6 @@
 require 'bundler'
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'sinatra/param'
 require 'json'
 
 ENV['RACK_ENV'] ||= 'development'
