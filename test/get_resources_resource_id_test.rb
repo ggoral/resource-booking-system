@@ -13,6 +13,8 @@ class GetResourcesResourceIdTest < Minitest::Unit::TestCase
     DatabaseCleaner.start
 
     @resource = Resource.create(name: 'aResourceName', description: 'aResourceDescription')
+    @booking = @resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+1), status: 'pending')
+
   end
 
   def teardown
@@ -37,12 +39,33 @@ class GetResourcesResourceIdTest < Minitest::Unit::TestCase
   end
   
   def test_get_a_resource
-    get '/resources/1'
+    get "/resources/#{Resource.first.id}"
     assert_response_ok
   end
 
   def test_get_an_non_existent_resource
     get "/resources/#{Resource.last.id.to_i.next}"
     assert_response_not_found
+  end
+
+  def test_json_first_resource
+    server_response = get "/resources/#{Resource.first.id}"
+    assert_equal 200, last_response.status
+
+    json = JSON.parse server_response.body
+    assert resource = json['resource']
+
+    resource = Resource.first
+    pattern = {        
+        resource: {
+            name: resource.name,
+            description: resource.description,
+            links:[
+              rel: String,
+              uri: String,
+              ] * json['resource']['links'].size 
+            }
+        }
+    matcher = assert_json_match pattern, server_response.body  
   end
 end
