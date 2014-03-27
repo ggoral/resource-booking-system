@@ -12,8 +12,8 @@ class GetResourcesResourceIdTest < Minitest::Unit::TestCase
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
 
-    @resource = Resource.create(name: 'aResourceName', description: 'aResourceDescription')
-    @booking = @resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+1), status: 'pending')
+    resource = Resource.create(name: 'aResourceName', description: 'aResourceDescription')
+    booking = resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+1), status: 'pending')
 
   end
 
