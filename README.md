@@ -76,6 +76,19 @@ get '/load' do
 ~~~~~
 
 ## TODO
+  * Test que faltan: `grep -i 'get\|post\|put\|delete' app.rb`
+  delete '/resources/:resource_id/bookings/:booking_id'
+  get '/resources'
+  get '/resources/:resource_id'
+  get '/resources/:resource_id/availability'
+  get '/resources/:resource_id/bookings'
+  get '/resources/:resource_id/bookings/:booking_id'
+  post '/resources'
+  post '/resources/:resource_id/bookings'
+  put '/resources/:resource_id'
+  put '/resources/:resource_id/bookings/:booking_id'
+  
+
   * Refactorizar y renombrar los Test
 
 Los recursos de la API no se asocian a una entidad, por lo tanto los recursos
