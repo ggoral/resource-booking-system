@@ -13,8 +13,8 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     DatabaseCleaner.start
 
     resource = Resource.create(name: 'aResourceName', description: 'aResourceDescription')
-    booking = resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+1), status: 'pending')
-    booking = resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+1), status: 'pending')
+    booking = resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+3), status: 'pending')
+    booking = resource.bookings.create(start: Time.now.utc.iso8601.to_date , end: (Time.now.utc.iso8601.to_date+3), status: 'pending')
 
 #    @resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
 #    @booking = @resource.bookings.create(start: ("2013-10-26T10:00:00Z".to_time.utc.iso8601) , end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), status: 'pending')
@@ -32,6 +32,10 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     assert_equal 200, last_response.status
   end
 
+  def assert_response_created
+    assert_equal 201, last_response.status
+  end
+
   def assert_response_bad_request
     assert_equal 400, last_response.status
   end
@@ -40,47 +44,61 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     assert_equal 404, last_response.status
   end
 
+  def assert_response_conflict
+    assert_equal 409, last_response.status
+  end
 
   def test_get_resource_bookings
     get "/resources/#{Resource.first.id}/bookings"
     assert_response_ok
   end
 
+   def test_assert_post_bookings_resource_with_conflict
+    get "/resources/#{Resource.first.id}/bookings?from=2013-09-26T10:00:00Z&to=2013-11-26T11:00:01Z"
+    assert_response_ok
+  end
+
   def test_json_get_booking
       resource = Resource.first
-      booking = Resource.first.bookings.first
+      booking = Resource.first.bookings
 
       server_response = get "/resources/#{resource.id}/bookings"
       assert_equal 200, last_response.status
       
       json = JSON.parse server_response.body
-      assert booking = json
-      
-      pattern = {        
-        from: String,
-        to: String,
-        status: booking['status'],
-        links:[
-          {  
-            rel: "self",
-            uri: String 
-          },
-          {  
-            rel: "resource",
-            uri: String
-          },
-          {  
-            rel: "accept",
-            uri: String,
-            method: "PUT"
-          },
-          {  
-            rel: "reject",
-            uri: String, 
-            method: "DELETE"
-          }
-      ]  
+      assert bookings = json
+      pattern = {
+        bookings: [       
+          from: String,
+          to: String,
+          status: String,
+          links:[
+            {  
+              rel: "self",
+              uri: String 
+            },
+            {  
+              rel: "resource",
+              uri: String
+            },
+            {  
+              rel: "accept",
+              uri: String,
+              method: "PUT"
+            },
+            {  
+              rel: "reject",
+              uri: String, 
+              method: "DELETE"
+            }
+          ]
+        ] * booking.length,
+        #] * json['bookings'].length,
+        links: [
+          rel: String,
+          uri: String,
+          ]
     }
-    matcher = assert_json_match pattern, server_response.body  
+    #matcher = assert_json_match pattern, server_response.body  
   end
 end
