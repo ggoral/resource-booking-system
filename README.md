@@ -78,8 +78,8 @@ get '/load' do
 ## TODO
   * Test que faltan: `grep -i 'get\|post\|put\|delete' app.rb`
   delete '/resources/:resource_id/bookings/:booking_id'
-  get '/resources'
-  get '/resources/:resource_id'
+  ~~get '/resources'~~
+  ~~get '/resources/:resource_id'~~
   get '/resources/:resource_id/availability'
   get '/resources/:resource_id/bookings'
   get '/resources/:resource_id/bookings/:booking_id'
