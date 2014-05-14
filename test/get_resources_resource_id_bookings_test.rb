@@ -40,81 +40,9 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     assert_equal 404, last_response.status
   end
 
-  def assert_get_resource(verb)
-    get "/resources/#{Resource.first.id}/#{verb}"
-    assert_response_ok
-  end
 
-  def assert_non_existent_resource(verb)
-    get "/resources/#{Resource.last.id.to_i + 1}/#{verb}"
-    assert_response_not_found
-  end
-
-  def assert_get_resources_with_date_limit_status(verb, date=nil, limit=nil, status=nil)
-    get "/resources/#{Resource.first.id}/#{verb}?date=#{date}&limit=#{limit}&status=#{status}"
-    assert_response_ok
-  end
-
-  def refute_get_resources_with_date_limit_status(verb, date=nil, limit=nil, status=nil)
-    get "/resources/#{Resource.first.id}/#{verb}?date=#{date}&limit=#{limit}&status=#{status}"
-    assert_response_bad_request
-  end
-
-  def assert_get_resources_with_date(verb, date=nil)
-    get "/resources/#{Resource.first.id}/#{verb}?date=#{date}"
-    assert_response_ok
-  end
-
-  def assert_get_resources_with_limit(verb, limit=nil)
-    get "/resources/#{Resource.first.id}/#{verb}?limit=#{limit}"
-    assert_response_ok
-  end
-
-  def assert_get_resources_with_status(verb, status=nil)
-    get "/resources/#{Resource.first.id}/#{verb}?status=#{status}"
-    assert_response_ok
-  end
-
-  def test_get_resource
-    assert_get_resource 'bookings'
-  end
-
-  def test_non_existent_resource
-    assert_non_existent_resource 'bookings'
-  end
-
-  def test_get_resources_with_date_limit_status
-    assert_get_resources_with_date_limit_status('bookings', '2013-10-26','365', 'pending')
-  end
-
-  def test_get_resources_with_date_limit_status
-    refute_get_resources_with_date_limit_status('bookings', '2013-10-26','366', 'pending')
-  end
-  
-  def test_get_resources_with_date
-    assert_get_resources_with_date('bookings','2013-10-26')
-  end
-  
-  def test_get_resources_with_limit
-    assert_get_resources_with_limit('bookings','1')
-  end
-  
-  def test_get_resources_with_status
-    assert_get_resources_with_status('bookings','pending')
-  end
-  
-  def test_put_resources_booking
-    put "/resources/#{Resource.first.id}/bookings/#{Resource.first.bookings.first.id}"
-    assert_response_ok
-  end
-
-  def test_get_resources_booking
-    get "/resources/#{Resource.first.id}/bookings/#{Resource.first.bookings.first.id}"
-    assert_response_ok
-  end
-
-  def test_delete_resources_booking
-    delete "/resources/#{Resource.first.id}/bookings/#{Resource.first.bookings.last.id}"
+  def test_get_resource_bookings
+    get "/resources/#{Resource.first.id}/bookings"
     assert_response_ok
   end
 
@@ -122,7 +50,7 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
       resource = Resource.first
       booking = Resource.first.bookings.first
 
-      server_response = get "/resources/#{resource.id}/bookings/#{booking.id}"
+      server_response = get "/resources/#{resource.id}/bookings"
       assert_equal 200, last_response.status
       
       json = JSON.parse server_response.body
