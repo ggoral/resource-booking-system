@@ -29,7 +29,7 @@ class GetResourcesResourceIdBookingsBookingIdTest < Minitest::Unit::TestCase
   def test_json_get_booking
       resource = Resource.first
       booking = Resource.first.bookings.first
-
+      post "/resources/#{@resource.id}/bookings?from=2014-05-15T00:00:00Z&to=2014-06-15T23:59:59Z"
       server_response = get "/resources/#{resource.id}/bookings/#{booking.id}"
       assert_equal 200, last_response.status
       
