@@ -13,9 +13,9 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     DatabaseCleaner.start
 
     resource = Resource.create(name: 'aResourceName', description: 'aResourceDescription')
-    booking = resource.bookings.create(start: (Time.now.utc.iso8601.to_date + 1) , end: (Time.now.utc.iso8601.to_date+3), status: 'approved')
+    booking = resource.bookings.create(start: (Time.now.utc.iso8601.to_date + 1), end: (Time.now.utc.iso8601.to_date+3), status: 'pending')
     booking.update(status: 'approved')
-    booking = resource.bookings.create(start: (Time.now.utc.iso8601.to_date + 1), end: (Time.now.utc.iso8601.to_date+3), status: 'approved')
+    booking = resource.bookings.create(start: (Time.now.utc.iso8601.to_date + 1), end: (Time.now.utc.iso8601.to_date+3), status: 'pending')
     booking.update(status: 'approved')
 #    @resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
 #    @booking = @resource.bookings.create(start: ("2013-10-26T10:00:00Z".to_time.utc.iso8601) , end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), status: 'pending')
@@ -67,14 +67,14 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
       assert_equal 200, last_response.status
       
       json = JSON.parse server_response.body
-      assert bookings = json
-      #puts json
-      #p booking
+      #assert bookings = json
+
       pattern = {
         bookings: [       
           from: String,
           to: String,
           status: String,
+          user: wildcard_matcher,
           links:[
             {  
               rel: "self",
@@ -96,7 +96,6 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
             }
           ]
         ] * booking.length,
-        #] * json['bookings'].length,
         links: [
           rel: String,
           uri: String,
