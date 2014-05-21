@@ -17,12 +17,6 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
     booking.update(status: 'approved')
     booking = resource.bookings.create(start: (Time.now.utc.iso8601.to_date + 1), end: (Time.now.utc.iso8601.to_date+3), status: 'pending')
     booking.update(status: 'approved')
-#    @resource = Resource.create( name: 'Computadora', description: 'Notebook con 4GB de RAM y 256 GB de espacio en disco con Linux')
-#    @booking = @resource.bookings.create(start: ("2013-10-26T10:00:00Z".to_time.utc.iso8601) , end: ("2013-10-26T11:00:00Z".to_time.utc.iso8601), status: 'pending')
-#    @booking.update(status: 'approved')
-#    @booking = @resource.bookings.create(start: "2013-10-26T11:00:00Z".to_time.utc.iso8601, end: ("2013-10-26T12:30:00Z".to_time.utc.iso8601), status: 'approved', user: 'otheruser@gmail.com')
-#    @booking_delete = @resource.bookings.create(start: "2013-10-26T11:00:00Z".to_time.utc.iso8601, end: ("2013-10-26T12:30:00Z".to_time.utc.iso8601), status: 'approved', user: 'otheruser@gmail.com')
-
   end
 
   def teardown
@@ -62,13 +56,11 @@ class GetResourcesResourceIdBookingsTest < Minitest::Unit::TestCase
   def test_json_get_booking
       resource = Resource.first
       booking = Resource.first.bookings
-      #post "/resources/#{resource.id}/bookings?from=2014-05-15T00:00:00Z&to=2014-06-15T23:59:59Z"
       server_response = get "/resources/#{resource.id}/bookings"
       assert_equal 200, last_response.status
       
       json = JSON.parse server_response.body
-      #assert bookings = json
-
+      
       pattern = {
         bookings: [       
           from: String,
