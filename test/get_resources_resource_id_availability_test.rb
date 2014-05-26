@@ -92,7 +92,7 @@ class GetResourcesResourceIdAvailabilityTest < Minitest::Unit::TestCase
     assert_get_resources_with_limit('availability','1')
   end
 
-  def test__get_resources_with_status
+  def test_get_resources_with_status
     assert_get_resources_with_status('availability','pending')
   end
 
